@@ -1,23 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import { Component, OnInit } from "@angular/core";
+import { MatTableDataSource } from "@angular/material";
 
 @Component({
-  selector: 'app-tags-list',
-  templateUrl: './tags-list.component.html',
-  styleUrls: ['./tags-list.component.css']
+  selector: "app-tags-list",
+  templateUrl: "./tags-list.component.html",
+  styleUrls: ["./tags-list.component.css"]
 })
 export class TagsListComponent implements OnInit {
-
-  displayedColumns = ['id', 'name', 'type'];
+  displayedColumns = ["id", "name", "type"];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
 
 export interface Element {
@@ -27,7 +23,7 @@ export interface Element {
 }
 
 const ELEMENT_DATA: Element[] = [
-  {id: 1, name: 'item1', type: 'type'},
-  {id: 2, name: 'item2', type: 'type'},
-  {id: 3, name: 'item3', type: 'type'},
+  { id: 1, name: "item1", type: "type" },
+  { id: 2, name: "item2", type: "type" },
+  { id: 3, name: "item3", type: "type" }
 ];
