@@ -1,11 +1,11 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from "./app.component";
-import { HeaderComponent } from "./header/header.component";
-import { AppRoutingModule } from "./app-routing.module";
-import { SharedMaterialModule } from "./shared/shared.module";
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { SharedMaterialModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],

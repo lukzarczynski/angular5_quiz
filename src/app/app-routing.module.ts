@@ -1,13 +1,13 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: "tags", loadChildren: "app/tags/tags.module#TagsModule" },
+  { path: 'tags', loadChildren: 'app/tags/tags.module#TagsModule' },
   {
-    path: "templates",
-    loadChildren: "app/templates/templates.module#TemplatesModule"
+    path: 'templates',
+    loadChildren: 'app/templates/templates.module#TemplatesModule'
   },
-  { path: "", redirectTo: "", pathMatch: "full" }
+  { path: '', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({

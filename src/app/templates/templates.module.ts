@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { TemplatesRoutingModule } from "./templates-routing.module";
-import { TemplatesListComponent } from "./templates-list/templates-list.component";
+import { TemplatesListComponent } from './templates-list/templates-list.component';
+import { TemplatesRoutingModule } from './templates-routing.module';
 
 @NgModule({
   imports: [CommonModule, TemplatesRoutingModule],

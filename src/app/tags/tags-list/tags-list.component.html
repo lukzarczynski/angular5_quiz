@@ -1,5 +1,7 @@
 <mat-card style="width: 800px; max-height: 50vh;">
-  <mat-card-title>header</mat-card-title>
+  <mat-card-title>header
+    <button fxFlex mat-button routerLink="new">New</button>
+  </mat-card-title>
   <mat-card-content>
     <mat-table #table [dataSource]="dataSource">
 
