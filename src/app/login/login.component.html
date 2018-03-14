@@ -1,0 +1,12 @@
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input [(ngModel)]="username" name="username" matInput placeholder="Login">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input [(ngModel)]="password" name="password" matInput type="password" placeholder="Password">
+  </mat-form-field>
+
+  <button fxFlex mat-button type="submit">Submit</button>
+
+</form>
