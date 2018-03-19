@@ -1,15 +1,16 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row fxLayoutAlign="center">
     <div fxLayoutAlign="space-around center" fxFlex="1 1 100%">
-      <span fxFlex>PGS Quiz</span>
+      <div fxFlex>
+        <span routerLink="" style="cursor: pointer">PGS Quiz</span>
+      </div>
       <div fxLayoutAlign="center center">
-        <button fxFlex mat-button routerLink="">
-          Home
-        </button>
         <button fxFlex mat-button routerLink="/tags">
+          <mat-icon>local_offer</mat-icon>
           Tags
         </button>
         <button fxFlex mat-button routerLink="/templates">
+          <mat-icon>school</mat-icon>
           Templates
         </button>
       </div>

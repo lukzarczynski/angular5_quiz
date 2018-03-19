@@ -9,6 +9,7 @@ import {AppComponent} from './app.component';
 import {AuthGuardService} from './auth-guard.service';
 import {AuthInterceptorService} from './auth-interceptor.service';
 import {AuthService} from './auth.service';
+import {ErrorInterceptorService} from './error-interceptor.service';
 import {HeaderComponent} from './header/header.component';
 import {LoginComponent} from './login/login.component';
 import {SharedModule} from './shared/shared.module';
@@ -26,7 +27,8 @@ import {SharedModule} from './shared/shared.module';
   providers: [
     AuthService,
     AuthGuardService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

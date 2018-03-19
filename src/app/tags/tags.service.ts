@@ -1,5 +1,6 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
 import {Page, PageableData, Sort} from '../shared';
 import {Tag} from './model/tag';
@@ -8,7 +9,7 @@ import {Tag} from './model/tag';
 @Injectable()
 export class TagsService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public snackBar: MatSnackBar) {
   }
 
   getTags(page?: Page, sort?: Sort, filter?: { [k: string]: string }): Observable<PageableData<Tag>> {
@@ -36,12 +37,14 @@ export class TagsService {
     return this.http.get<Tag>(`tags/${id}`);
   }
 
-  createTag(tag: Tag): Observable<any> {
-    return this.http.post('tags', tag);
+  createTag(tag: Tag): Observable<Tag> {
+    return this.http.post<Tag>('tags', tag)
+      .do(r => this.snackBar.open(`Tag with id ${r.id} has been created`, null, {duration: 3000}));
   }
 
-  editTag(tag: Tag): Observable<any> {
-    return this.http.put(`tags/${tag.id}`, tag);
+  editTag(tag: Tag): Observable<Tag> {
+    return this.http.put<Tag>(`tags/${tag.id}`, tag)
+      .do(r => this.snackBar.open(`Tag with id ${r.id} has been updated`, null, {duration: 3000}));
   }
 
 }

@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     // console.log('submitting form: ', this.username);
-    this.authService.signinUser(this.username, this.password, () => {
+    this.authService.signIn(this.username, this.password, () => {
       this.router.navigate(['/tags']);
     });
   }

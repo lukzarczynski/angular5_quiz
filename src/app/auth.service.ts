@@ -1,16 +1,13 @@
 import {Injectable} from '@angular/core';
 import {AuthenticationDetails, CognitoRefreshToken, CognitoUser, CognitoUserPool} from 'amazon-cognito-identity-js';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
-import {environment} from '../environments/environment.dev';
 import {Subscription} from 'rxjs/Subscription';
+import {environment} from '../environments/environment.dev';
 
 
 @Injectable()
 export class AuthService {
   timerSubscription: Subscription;
-
-  refreshToken: CognitoRefreshToken;
 
   private userPool: CognitoUserPool = new CognitoUserPool({
     UserPoolId: environment.poolId,
@@ -18,10 +15,13 @@ export class AuthService {
   });
 
   constructor() {
-    this.refreshToken = null;
+    if (this.isAuthorized()) {
+      this.startRefreshSubscription();
+      this.refreshSession();
+    }
   }
 
-  signinUser(username: string, password: string, onAfterLogin) {
+  signIn(username: string, password: string, onAfterLogin) {
     const authenticationData = {
       Username: username,
       Password: password,
@@ -33,36 +33,51 @@ export class AuthService {
     user.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         sessionStorage.setItem('token', result.getIdToken().getJwtToken());
-        this.refreshToken = result.getRefreshToken();
-        this.timerSubscription = Observable.timer(15 * 60 * 1000, 15 * 60 * 1000)
-          .subscribe(() => {
-            this.refreshSession();
-          });
+        sessionStorage.setItem('refreshToken', result.getRefreshToken().getToken());
+        this.startRefreshSubscription();
         onAfterLogin();
       },
-      onFailure: err => console.log(err),
+      onFailure: err => {
+        console.log('Could not log in: ', err);
+        this.signOut();
+      }
     });
   }
 
   refreshSession() {
-    this.userPool.getCurrentUser().refreshSession(this.refreshToken, (err, result) => {
-      if (err) {
-        this.signOut();
-      } else {
-        sessionStorage.setItem('token', result.getIdToken().getJwtToken());
-        this.refreshToken = result.getRefreshToken();
-        console.log('session refreshed', new Date().toDateString());
-      }
-    });
+    const refreshToken: string = sessionStorage.getItem('refreshToken');
+    if (refreshToken) {
+      this.userPool.getCurrentUser().refreshSession(new CognitoRefreshToken({RefreshToken: refreshToken}),
+        (err, result) => {
+          if (err) {
+            console.log('could not refresh sessions', err);
+            this.signOut();
+          } else {
+            sessionStorage.setItem('token', result.getIdToken().getJwtToken());
+            sessionStorage.setItem('refreshToken', result.getRefreshToken().getToken());
+            console.log('session refreshed', new Date().toUTCString());
+          }
+        });
+    }
   }
 
   signOut() {
     console.log('signing out');
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
+      this.timerSubscription = null;
     }
     sessionStorage.removeItem('token');
-    this.refreshToken = null;
+    sessionStorage.removeItem('refreshToken');
+  }
+
+  startRefreshSubscription() {
+    if (!this.timerSubscription) {
+      this.timerSubscription = Observable.timer(15 * 60 * 1000, 15 * 60 * 1000)
+        .subscribe(() => {
+          this.refreshSession();
+        });
+    }
   }
 
   isAuthorized() {
