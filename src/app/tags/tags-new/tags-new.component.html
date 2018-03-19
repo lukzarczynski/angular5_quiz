@@ -1,1 +1,59 @@
-<p>tags-new works!</p>
+<mat-card style="min-width: 400px; max-width: 800px">
+  <mat-card-title>
+    <div *ngIf="edit; then editTemp else newTemp"></div>
+    <ng-template #editTemp>Edit</ng-template>
+    <ng-template #newTemp>New</ng-template>
+    tag
+  </mat-card-title>
+  <mat-card-content style="max-height: 500px; width: 350px">
+    <form (ngSubmit)="onSubmit()" fxLayout="column" #f="ngForm">
+      <mat-form-field>
+        <input [(ngModel)]="tag.name" name="name" matInput placeholder="Name" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select [(ngModel)]="tag.type" placeholder="Type" name="type" required>
+          <mat-option [value]="tagType" *ngFor="let tagType of tagTypes | keys">
+            {{tagType | tagType}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="tag.type === 'QUESTION_BLOCK'">
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [(ngModel)]="tag.parentTag"
+               [matAutocomplete]="parentTagAutocomplete"
+               name="parentTag"
+               (ngModelChange)="onChange($event)"
+               appObjectSelected
+               required
+               #parentTag="ngModel"
+               #parentTagElement
+        >
+        <mat-autocomplete #parentTagAutocomplete="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredExamTypes | async" [value]="option">
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-error *ngIf="parentTag.errors?.objectSelected"> {{parentTag.errors.objectSelected}} </mat-error>
+
+      </mat-form-field>
+
+
+      <div fxLayout="row" fxLayoutAlign="space-evenly">
+        <button type="button" mat-raised-button (click)="onCancel()">
+          <mat-icon>clear</mat-icon>
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">
+          <mat-icon>done</mat-icon>
+          Submit
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

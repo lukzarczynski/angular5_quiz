@@ -19,7 +19,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     if(this.authService.isAuthorized()) {
       req = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.authService.token}`
+          Authorization: `Bearer ${this.authService.getToken()}`
         }
       });
     }

@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -12,7 +11,7 @@ import {AuthInterceptorService} from './auth-interceptor.service';
 import {AuthService} from './auth.service';
 import {HeaderComponent} from './header/header.component';
 import {LoginComponent} from './login/login.component';
-import {SharedMaterialModule} from './shared/shared.module';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LoginComponent],
@@ -21,8 +20,7 @@ import {SharedMaterialModule} from './shared/shared.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedMaterialModule,
-    FlexLayoutModule,
+    SharedModule,
     FormsModule,
   ],
   providers: [

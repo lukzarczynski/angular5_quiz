@@ -1,26 +1,44 @@
-<mat-card style="width: 800px; max-height: 50vh;">
-  <mat-card-title>header
-    <button fxFlex mat-button routerLink="new">New</button>
+<mat-card style="width: 800px">
+  <mat-card-title fxLayout="row" fxLayoutAlign="space-between">
+    <span>Tags</span>
+    <button mat-raised-button color="primary" routerLink="new">
+      <mat-icon>add</mat-icon>
+      New
+    </button>
   </mat-card-title>
-  <mat-card-content>
-    <mat-table #table [dataSource]="tagsDatasource">
+  <mat-card-content style="overflow-x: hidden; overflow-y: auto; max-height: 550px">
+    <mat-table #table [dataSource]="tagsDatasource" matSort (matSortChange)="sortData($event)">
 
       <!-- Position Column -->
       <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef>Id.</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header="id" [start]="'asc'">Id.</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header="name">Name</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
       </ng-container>
 
       <!-- Type Column -->
       <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.type}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header="type">Type</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.type | tagType }}</mat-cell>
+      </ng-container>
+
+      <!-- Parent Tag Column -->
+      <ng-container matColumnDef="parentTag">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="parentTag">Parent Tag</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.parentTag && element.parentTag.name }}</mat-cell>
+      </ng-container>
+
+      <!-- Actions Column-->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon routerLink="new/{{element.id}}">edit</mat-icon>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -29,6 +47,17 @@
     </mat-table>
   </mat-card-content>
   <mat-card-footer>
-    footer
+
+    <mat-paginator
+      class="tag-list-paginator"
+      [hidePageSize]="true"
+      [showFirstLastButtons]="true"
+      [length]="pageableOptions.length"
+      [pageSize]="pageableOptions.pageSize"
+      [pageIndex]="pageableOptions.pageIndex"
+      (page)="pageChange($event)"
+
+    >
+    </mat-paginator>
   </mat-card-footer>
 </mat-card>

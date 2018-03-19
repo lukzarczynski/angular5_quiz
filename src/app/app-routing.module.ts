@@ -11,7 +11,7 @@ const routes: Routes = [
     loadChildren: 'app/templates/templates.module#TemplatesModule',
     canActivate: [AuthGuardService]
   },
-  { path: '', redirectTo: '', pathMatch: 'full' }
+  { path: '', redirectTo: '', pathMatch: 'full', canActivate: [AuthGuardService] }
 ];
 
 @NgModule({

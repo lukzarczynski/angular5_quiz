@@ -1,3 +1,24 @@
 .mat-column-id {
   flex: 0 0 55px;
 }
+
+.mat-column-actions {
+  flex: 0 0 50px;
+}
+
+.mat-column-type {
+  flex: 0 0 130px;
+}
+
+.mat-column-actions mat-icon {
+  cursor: pointer;
+  color: #bdbdbd;
+}
+
+.mat-column-actions mat-icon:hover {
+  color: #424242;
+}
+
+.tag-list-paginator div.mat-paginator-container{
+  justify-content: center !important;
+}
